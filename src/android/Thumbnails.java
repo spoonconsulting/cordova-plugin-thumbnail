@@ -47,7 +47,12 @@ public class Thumbnails {
         int oWidth = bitmap.getWidth();
         int oHeight = bitmap.getHeight();
 
-        float ratio = Math.min(oWidth * 1.0f / thumbnailOptions.maxPixelSize, oHeight * 1.0f / thumbnailOptions.maxPixelSize);
+        float ratio;
+        if (orientation != 1) {
+            ratio  = Math.min(oWidth * 1.0f / thumbnailOptions.maxPixelSize, oHeight * 1.0f / thumbnailOptions.maxPixelSize);
+        } else {
+            ratio  = Math.max(oWidth * 1.0f / thumbnailOptions.maxPixelSize, oHeight * 1.0f / thumbnailOptions.maxPixelSize);
+        }
 
         if (ratio > 1) {
             int width = (int) (oWidth / ratio);
