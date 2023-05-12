@@ -160,12 +160,6 @@
     if ([command.arguments count] == 2) {
         maxPixelSize = [command.arguments objectAtIndex:1];
     } else {
-        await this.save();
-        await (await this.getBatch()).computeProgress();
-        return;
-      } else {
-        Logger.log({
-          eventLabel: "Upload failed",
         maxPixelSize = [command.arguments objectAtIndex:2];
     }
     return [maxPixelSize floatValue];
