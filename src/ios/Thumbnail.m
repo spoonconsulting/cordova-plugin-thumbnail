@@ -89,7 +89,12 @@
     UIImage* image = [[UIImage alloc]initWithData:data];
 
     double maxPointSize = maxPixelSize / (double) (image.scale);
-    double ratio = MIN(image.size.width/maxPointSize, image.size.height/maxPointSize);
+    double ratio;
+    if ((image.size.width / image.size.height) > 1) {
+        ratio = MAX(image.size.width/maxPointSize, image.size.height/maxPointSize);
+    } else {
+        ratio = MIN(image.size.width/maxPointSize, image.size.height/maxPointSize);
+    }
     
     if (@available(iOS 15.0, *)) {
         double thumbnailHeight = (image.size.height/ratio) / image.scale;
@@ -155,6 +160,12 @@
     if ([command.arguments count] == 2) {
         maxPixelSize = [command.arguments objectAtIndex:1];
     } else {
+        await this.save();
+        await (await this.getBatch()).computeProgress();
+        return;
+      } else {
+        Logger.log({
+          eventLabel: "Upload failed",
         maxPixelSize = [command.arguments objectAtIndex:2];
     }
     return [maxPixelSize floatValue];
