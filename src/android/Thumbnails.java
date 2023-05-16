@@ -46,14 +46,8 @@ public class Thumbnails {
         long begin = System.currentTimeMillis();
         int oWidth = bitmap.getWidth();
         int oHeight = bitmap.getHeight();
-        float ratio;
-        ExifInterface exif = new ExifInterface(thumbnailOptions.sourcePath);
-        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
-        if (orientation != 1) {
-            ratio  = Math.min(oWidth * 1.0f / thumbnailOptions.maxPixelSize, oHeight * 1.0f / thumbnailOptions.maxPixelSize);
-        } else {
-            ratio  = Math.max(oWidth * 1.0f / thumbnailOptions.maxPixelSize, oHeight * 1.0f / thumbnailOptions.maxPixelSize);
-        }
+
+        float ratio = Math.min(oWidth * 1.0f / thumbnailOptions.maxPixelSize, oHeight * 1.0f / thumbnailOptions.maxPixelSize);
 
         if (ratio > 1) {
             int width = (int) (oWidth / ratio);
@@ -61,6 +55,8 @@ public class Thumbnails {
 
             bitmap = ThumbnailUtils.extractThumbnail(bitmap, width, height);
         }
+        ExifInterface exif = new ExifInterface(thumbnailOptions.sourcePath);
+        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
         if (orientation != 1) {
             bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), getRotationMatrix(orientation), true);
         }
