@@ -86,26 +86,28 @@
 + (UIImage *)thumbnailWithContentsOfURL:(NSURL *)URL maxPixelSize:(CGFloat)maxPixelSize
 {
     NSData *data = [NSData dataWithContentsOfURL:URL];
-    UIImage* image = [[UIImage alloc]initWithData:data];
-
+    UIImage* image = [[UIImage alloc] initWithData:data];
+    double thumbnailHeight;
+    double thumbnailWidth;
+    CGSize thumbnailSize;
     double maxPointSize = maxPixelSize / (double) (image.scale);
     double ratio;
+
     if ((image.size.width / image.size.height) > 1) {
-        ratio = MAX(image.size.width/maxPointSize, image.size.height/maxPointSize);
+        ratio = MAX(image.size.width / maxPointSize, image.size.height / maxPointSize);
     } else {
-        ratio = MIN(image.size.width/maxPointSize, image.size.height/maxPointSize);
+        ratio = MIN(image.size.width / maxPointSize, image.size.height / maxPointSize);
     }
     
     if (@available(iOS 15.0, *)) {
-        double thumbnailHeight = (image.size.height/ratio) / image.scale;
-        double thumbnailWidth = (image.size.width/ratio) / image.scale;
-        CGSize thumbnailSize = CGSizeMake(thumbnailWidth, thumbnailHeight);
-        UIImage *newImage = [image imageByPreparingThumbnailOfSize: thumbnailSize];
-        return newImage;
+        thumbnailHeight = (image.size.height / ratio) / image.scale;
+        thumbnailWidth = (image.size.width / ratio) / image.scale;
+        thumbnailSize = CGSizeMake(thumbnailWidth, thumbnailHeight);
+        return [image imageByPreparingThumbnailOfSize: thumbnailSize];
     } else {
-        double thumbnailHeight = (image.size.height/ratio) / UIScreen.mainScreen.scale;
-        double thumbnailWidth = (image.size.width/ratio) / UIScreen.mainScreen.scale;
-        CGSize thumbnailSize = CGSizeMake(thumbnailWidth, thumbnailHeight);
+        thumbnailHeight = (image.size.height / ratio) / UIScreen.mainScreen.scale;
+        thumbnailWidth = (image.size.width / ratio) / UIScreen.mainScreen.scale;
+        thumbnailSize = CGSizeMake(thumbnailWidth, thumbnailHeight);
         UIGraphicsBeginImageContextWithOptions(thumbnailSize, false, 0.0);
         [image drawInRect:CGRectMake(0, 0, thumbnailSize.width, thumbnailSize.height)];
         UIImage *thumbnailImage = UIGraphicsGetImageFromCurrentImageContext();
