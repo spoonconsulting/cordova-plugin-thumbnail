@@ -91,8 +91,8 @@
     double thumbnailWidth;
     CGSize thumbnailSize;
     double maxPointSize = maxPixelSize / (double) (image.scale);
+    
     double ratio;
-
     if ((image.size.width / image.size.height) > 1) {
         ratio = MAX(image.size.width / maxPointSize, image.size.height / maxPointSize);
     } else {
