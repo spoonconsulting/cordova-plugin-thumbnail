@@ -85,25 +85,35 @@
 
 + (UIImage *)thumbnailWithContentsOfURL:(NSURL *)URL maxPixelSize:(CGFloat)maxPixelSize
 {
-    CGImageSourceRef imageSource = CGImageSourceCreateWithURL((__bridge CFURLRef)URL, NULL);
-    if(imageSource == NULL) {
-        NSLog(@"Can not read from source: %@", URL);
-        return NULL;
+    NSData *data = [NSData dataWithContentsOfURL:URL];
+    UIImage* image = [[UIImage alloc] initWithData:data];
+    double thumbnailHeight;
+    double thumbnailWidth;
+    CGSize thumbnailSize;
+    double maxPointSize = maxPixelSize / (double) (image.scale);
+    
+    double ratio;
+    if ((image.size.width / image.size.height) > 1) {
+        ratio = MAX(image.size.width / maxPointSize, image.size.height / maxPointSize);
+    } else {
+        ratio = MIN(image.size.width / maxPointSize, image.size.height / maxPointSize);
     }
-
-    NSDictionary *imageOptions = @{
-                                   (NSString const *)kCGImageSourceCreateThumbnailFromImageIfAbsent : (NSNumber const *)kCFBooleanTrue,
-                                   (NSString const *)kCGImageSourceThumbnailMaxPixelSize            : @(maxPixelSize),
-                                   (NSString const *)kCGImageSourceCreateThumbnailWithTransform     : (NSNumber const *)kCFBooleanTrue,
-                                   (NSString const *)kCGImageSourceCreateThumbnailFromImageAlways   : (NSNumber const *)kCFBooleanTrue
-                                   };
-    CGImageRef thumbnail = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, (__bridge CFDictionaryRef)imageOptions);
-    CFRelease(imageSource);
-
-    UIImage *result = [[UIImage alloc] initWithCGImage:thumbnail];
-    CGImageRelease(thumbnail);
-
-    return result;
+    
+    if (@available(iOS 15.0, *)) {
+        thumbnailHeight = (image.size.height / ratio) / image.scale;
+        thumbnailWidth = (image.size.width / ratio) / image.scale;
+        thumbnailSize = CGSizeMake(thumbnailWidth, thumbnailHeight);
+        return [image imageByPreparingThumbnailOfSize: thumbnailSize];
+    } else {
+        thumbnailHeight = (image.size.height / ratio) / UIScreen.mainScreen.scale;
+        thumbnailWidth = (image.size.width / ratio) / UIScreen.mainScreen.scale;
+        thumbnailSize = CGSizeMake(thumbnailWidth, thumbnailHeight);
+        UIGraphicsBeginImageContextWithOptions(thumbnailSize, false, 0.0);
+        [image drawInRect:CGRectMake(0, 0, thumbnailSize.width, thumbnailSize.height)];
+        UIImage *thumbnailImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        return thumbnailImage;
+    }
 }
 
 @end
