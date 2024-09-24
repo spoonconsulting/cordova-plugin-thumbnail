@@ -45,6 +45,12 @@ public class Thumbnails {
         options.inJustDecodeBounds = false;
         Bitmap bitmap = BitmapFactory.decodeFile(thumbnailOptions.sourcePath, options);
 
+        if (bitmap == null) {
+            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+            String optionsJSON = ow.writeValueAsString(options);
+            throw new Exception("Could not decode file into bitmap object { sourcePath: " + thumbnailOptions.sourcePath + " options: " + optionsJSON + " }");
+        }
+
         long begin = System.currentTimeMillis();
         int oWidth = bitmap.getWidth();
         int oHeight = bitmap.getHeight();
