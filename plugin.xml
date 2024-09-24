@@ -12,8 +12,8 @@
     <dependency id="cordova-plugin-file"/>
 
     <platform name="android">
-        <framework src="com.fasterxml.jackson.core:jackson-core:2.17.2" />
-        <framework src="com.fasterxml.jackson.core:jackson-databind:2.17.2" />
+        <framework src="com.fasterxml.jackson.core:jackson-core:+" />
+        <framework src="com.fasterxml.jackson.core:jackson-databind:+" />
 
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="Thumbnails">
