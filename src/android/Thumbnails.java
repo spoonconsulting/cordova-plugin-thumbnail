@@ -16,10 +16,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
 public class Thumbnails {
 
-    public static void thumbnail(Options thumbnailOptions) throws IOException {
+    public static void thumbnail(Options thumbnailOptions) throws Exception {
         long begin = System.currentTimeMillis();
 
         Bitmap bitmap = thumbnailSmallImage(thumbnailOptions);
@@ -37,7 +39,7 @@ public class Thumbnails {
         bitmap = null;
     }
 
-    private static Bitmap thumbnailSmallImage(Options thumbnailOptions) throws IOException {
+    private static Bitmap thumbnailSmallImage(Options thumbnailOptions) throws Exception {
 
         BitmapFactory.Options options = calculateImageSize(thumbnailOptions.sourcePath);
         options.inJustDecodeBounds = false;
