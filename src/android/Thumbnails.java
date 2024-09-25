@@ -16,8 +16,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 
 public class Thumbnails {
 
@@ -46,9 +44,7 @@ public class Thumbnails {
         Bitmap bitmap = BitmapFactory.decodeFile(thumbnailOptions.sourcePath, options);
 
         if (bitmap == null) {
-            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-            String optionsJSON = ow.writeValueAsString(options);
-            throw new Exception("Could not decode file into bitmap object { sourcePath: " + thumbnailOptions.sourcePath + " options: " + optionsJSON + " }");
+            throw new Exception("Could not decode file into bitmap object { sourcePath: " + thumbnailOptions.sourcePath + " options: }");
         }
 
         long begin = System.currentTimeMillis();
