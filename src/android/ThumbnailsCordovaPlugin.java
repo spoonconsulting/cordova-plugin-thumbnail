@@ -64,7 +64,8 @@ public class ThumbnailsCordovaPlugin extends CordovaPlugin {
                         if(!sourceFile.exists()){
                             callbackContext.error("The image file does not exist at path: " + options.sourcePath );
                             throw new IOException(String.format("The image file does not exist"));
-                        } else if(!targetFile.exists()) {
+                        } 
+                        if(!targetFile.exists()) {
                             targetFile.getParentFile().mkdirs();
                             targetFile.createNewFile();
                         }
