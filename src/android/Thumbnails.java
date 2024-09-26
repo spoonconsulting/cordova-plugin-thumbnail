@@ -46,8 +46,8 @@ public class Thumbnails {
         Bitmap bitmap = BitmapFactory.decodeFile(thumbnailOptions.sourcePath, options);
 
         if (bitmap == null) {
-            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-            String optionsJSON = ow.writeValueAsString(options);
+            ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
+            String optionsJSON = objectWriter.writeValueAsString(options);
             throw new Exception("Could not decode file into bitmap object { sourcePath: " + thumbnailOptions.sourcePath + " options: " + optionsJSON + " }");
         }
 
