@@ -5,7 +5,7 @@ This plug-in implements the ability to generate image thumbnails for Cordova pro
 # Installation
 
 ```
-cordova plugin add https://github.com/almas/cordova-plugin-thumbnail.git
+cordova plugin add https://github.com/spoonconsulting/cordova-plugin-thumbnail.git
 ```
 
 # How to use
