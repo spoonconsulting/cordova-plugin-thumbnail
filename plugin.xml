@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="@spoonconsulting/cordova-plugin-thumbnail" version="1.0.4">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="@spoonconsulting/cordova-plugin-thumbnail" version="1.0.5">
     <name>Thumbnail</name>
     <description>Cordova Thumbnail Plugin</description>
     <license>Apache 2.0</license>
@@ -12,8 +12,8 @@
     <dependency id="cordova-plugin-file"/>
 
     <platform name="android">
-     <framework src="com.fasterxml.jackson.core:jackson-core:+" />
-     <framework src="com.fasterxml.jackson.core:jackson-databind:+" />
+     <framework src="com.fasterxml.jackson.core:jackson-core:2.21.4" />
+     <framework src="com.fasterxml.jackson.core:jackson-databind:2.21.4" />
 
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="Thumbnails">
